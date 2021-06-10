@@ -1,0 +1,31 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+
+        <form action="/gameboard/games/create/" method="POST"> 
+        <div class="container my-3">
+            <br>
+            {% csrf_token %}
+            <div class="col-auto">
+            <div class="form-inline">
+                <label>제목:  &nbsp &nbsp</label>
+                {{ forms.subject}}
+
+            </div>
+            <br>
+
+            <div class="form-group">
+                {{ forms.content }}
+            </div>
+            <input type="hidden" name="create_date" value="{% now 'Y-m-d'%}">
+            <div class = "form-group" >
+                <button class="btn btn-secondary" type="submit">&nbsp &nbsp글쓰기&nbsp &nbsp</button>
+            </div>
+            </div>
+
+        </div>
+        </form>
+        
+{% endblock %}
+

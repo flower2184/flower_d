@@ -1,0 +1,96 @@
+
+{% extends 'base.html' %}
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container my-3">
+    <div class="container my-3">
+    <div class="container my-3">
+    <div class="container my-3">
+    <div class="container my-3">
+    <div class="container my-3">
+    <div align="center"><h2 class="border-bottom py-2">{{ games.subject }}</h2></div>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;">
+            
+                {% autoescape off %}
+                    {{games.content}}
+                {% endautoescape %}
+            
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="badge badge-light p-2 text-right">
+                    <div class="mb-2">{{ games.author.first_name }}</div>
+                    <div>{{ games.create_date_str }}</div>
+                </div>
+            </div>
+
+            {% if request.user == games.author %}
+            <div class="my-3 text-right">
+                <a href="#" class="delete btn btn-md btn-outline-secondary"
+                    data-uri="{% url 'gameboard:games_delete' games.id  %}">
+                        <span style="font-size:middle">삭제</span>
+                    </a>
+            </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+
+    <hr>
+
+    <form action="{% url 'gameboard:answer_create' games.id %}" method="post" class="my-3">
+        {% csrf_token %}
+        <div class="form-group">
+            <textarea {% if not user.is_authenticated %}disabled{% endif %}
+                        name="content" id="content" class="form-control" rows="2"></textarea>
+        </div>
+        <div align="right"><input type="submit" value="확인" class="btn btn-outline-info"></div>
+    </form>
+
+    <hr>
+
+
+    {% for answer in games.answer_set.all reversed%}
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;">{{ answer.content }}</div>
+            <div class="d-flex justify-content-end">
+            
+                <div class="badge badge-light p-2 text-right" >
+                    <div class="mb-2">{{ answer.author.first_name }}</div>
+                    <div>{{ answer.create_date_str }}</div>
+                </div>
+                &nbsp&nbsp
+                <div>
+                {% if request.user == answer.author %}
+                <a href="#" class="delete btn btn-lg btn-outline-secondary" text-align="center"
+                    data-uri="{% url 'gameboard:answer_delete' answer.id  %}"><span style="font-size:smaller;">삭제</span></a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+{% endblock %}

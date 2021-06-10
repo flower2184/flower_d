@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container w-75 my-5 p-4 bg-light text-center shadow">
+
+      <h1 class="text-dark">Sign up</h1> 
+      <hr>
+     
+      <div class="container w-75 text-left">
+            <form method="post" class="post-form">
+                {% csrf_token %}
+                {% include "form_errors.html" %}
+                <div class="form-group">
+                    <label for="username">아이디</label>
+                    <input type="text" class="form-control" name="username" id="username"
+                        value="{{ form.username.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group">
+                    <label for="first_name">닉네임 (*형식: 캐릭터명[오너명])</label>
+                    <input type="text" class="form-control" name="first_name" id="first_name"
+                        value="{{ form.username.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group">
+                    <label for="password1">비밀번호</label>
+                    <input type="password" class="form-control" name="password1" id="password1"
+                        value="{{ form.password1.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group">
+                    <label for="password2">비밀번호 확인</label>
+                    <input type="password" class="form-control" name="password2" id="password2"
+                        value="{{ form.password2.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group">
+                    <label for="last_name">개인 확인 문구</label>
+                    <input type="text" class="form-control" name="last_name" id="last_name"
+                        value="{{ form.email.value|default_if_none:'' }}">
+                </div>
+                <br>
+                <div align = "center"><button type="submit" class="btn btn-primary">생성하기</button></div>
+            </form>
+            <br>
+        </div>
+    
+    </div>
+
+{% endblock %}
